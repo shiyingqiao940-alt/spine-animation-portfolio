@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#090b0f" />
+    <meta
+      name="description"
+      content="Spine 动画作品集，收录角色、动物、场景与循环动画 GIF。"
+    />
+    <title>Spine Motion · 动画作品集</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-noise" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="返回顶部">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>SPINE / MOTION</span>
+      </a>
+      <div class="topbar-meta">
+        <span>ANIMATION ARCHIVE</span>
+        <span>2026</span>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> SELECTED MOTION WORKS</p>
+          <h1 id="hero-title">让角色在<br /><em>时间里呼吸。</em></h1>
+          <p class="hero-intro">
+            Spine 动画作品集——收录角色表演、场景循环、动物动作与游戏内动画。
+            每一帧都围绕节奏、重量与生命感展开。
+          </p>
+          <a class="primary-link" href="#works">
+            浏览全部作品
+            <span aria-hidden="true">↘</span>
+          </a>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-orbit orbit-a" aria-hidden="true"></div>
+          <div class="hero-orbit orbit-b" aria-hidden="true"></div>
+          <div class="hero-frame">
+            <div class="frame-corner corner-tl"></div>
+            <div class="frame-corner corner-tr"></div>
+            <div class="frame-corner corner-bl"></div>
+            <div class="frame-corner corner-br"></div>
+            <img id="hero-gif" alt="作品精选动画" draggable="false" />
+            <div class="hero-caption">
+              <span id="hero-index">01 / 48</span>
+              <span id="hero-name">精选动画</span>
+            </div>
+          </div>
+          <button class="hero-next" id="hero-next" type="button" aria-label="切换精选作品">
+            NEXT <span>→</span>
+          </button>
+        </div>
+
+        <div class="hero-stats" aria-label="作品集统计">
+          <div><strong id="stat-animations">48</strong><span>动画片段</span></div>
+          <div><strong id="stat-projects">22</strong><span>Spine 项目</span></div>
+          <div><strong id="stat-categories">5</strong><span>作品分类</span></div>
+        </div>
+      </section>
+
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker-track">
+          <span>CHARACTER MOTION</span><b>✦</b><span>GAME ANIMATION</span><b>✦</b>
+          <span>SEAMLESS LOOP</span><b>✦</b><span>SPINE 2D</span><b>✦</b>
+          <span>CHARACTER MOTION</span><b>✦</b><span>GAME ANIMATION</span><b>✦</b>
+          <span>SEAMLESS LOOP</span><b>✦</b><span>SPINE 2D</span><b>✦</b>
+        </div>
+      </div>
+
+      <section class="works" id="works" aria-labelledby="works-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span></span> MOTION LIBRARY</p>
+            <h2 id="works-title">全部作品</h2>
+          </div>
+          <p class="section-note">点击任意封面播放原始 GIF</p>
+        </div>
+
+        <div class="toolbar">
+          <div class="filters" id="filters" aria-label="作品分类"></div>
+          <label class="search-box">
+            <span aria-hidden="true">⌕</span>
+            <input id="search" type="search" placeholder="搜索项目或动画名" autocomplete="off" />
+          </label>
+        </div>
+
+        <div class="result-line">
+          <span id="result-count">48 个作品</span>
+          <span>GIF PREVIEW / CLICK TO PLAY</span>
+        </div>
+
+        <div class="gallery" id="gallery"></div>
+        <div class="empty-state" id="empty-state" hidden>
+          <strong>没有找到匹配作品</strong>
+          <span>换一个关键词或分类试试。</span>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-title">FRAME BY FRAME.<br />MOTION WITH PURPOSE.</div>
+      <div class="footer-meta">
+        <span>SPINE ANIMATION PORTFOLIO</span>
+        <span>© 2026</span>
+      </div>
+    </footer>
+
+    <dialog class="viewer" id="viewer" aria-labelledby="viewer-title">
+      <div class="viewer-shell">
+        <button class="viewer-close" id="viewer-close" type="button" aria-label="关闭">×</button>
+        <div class="viewer-stage">
+          <img id="viewer-gif" alt="" draggable="false" />
+          <div class="viewer-loading" id="viewer-loading">GIF LOADING…</div>
+        </div>
+        <div class="viewer-info">
+          <div>
+            <p id="viewer-category">作品分类</p>
+            <h3 id="viewer-title">动画名称</h3>
+            <span id="viewer-project">项目名称</span>
+          </div>
+          <dl>
+            <div><dt>时长</dt><dd id="viewer-duration">—</dd></div>
+            <div><dt>帧数</dt><dd id="viewer-frames">—</dd></div>
+            <div><dt>尺寸</dt><dd id="viewer-dimensions">—</dd></div>
+          </dl>
+        </div>
+        <div class="viewer-nav">
+          <button id="viewer-prev" type="button"><span>←</span> 上一个</button>
+          <span id="viewer-position">01 / 111</span>
+          <button id="viewer-next" type="button">下一个 <span>→</span></button>
+        </div>
+      </div>
+    </dialog>
+
+    <noscript>请启用 JavaScript 浏览本作品集。</noscript>
+    <script src="data/animations.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
