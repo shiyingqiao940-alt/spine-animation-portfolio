@@ -18,6 +18,8 @@
   let query = "";
   let visibleItems = [...data.items];
   let viewerIndex = 0;
+  let viewerLoadId = 0;
+  let viewerPreloader = null;
 
   const pad = (number) => String(number).padStart(2, "0");
   const countFor = (category) => category === "全部"
@@ -94,10 +96,45 @@
   });
 
   function fillViewer(item) {
-    viewerGif.style.opacity = "0";
+    const loadId = ++viewerLoadId;
+    viewerPreloader = null;
+
+    // Keep the lightweight cover visible while the full GIF is fetched. This
+    // avoids a blank viewer on slower connections and for the larger scenes.
+    viewerGif.onload = null;
+    viewerGif.onerror = null;
+    viewerGif.src = item.poster;
+    viewerGif.style.opacity = "1";
     viewerLoading.hidden = false;
+    viewerLoading.textContent = "GIF 加载中…";
+    viewerLoading.classList.remove("is-error");
+    viewerLoading.onclick = null;
     viewerGif.alt = `${item.project} ${item.displayAnimation}`;
-    viewerGif.src = item.gif;
+
+    const preloader = new Image();
+    viewerPreloader = preloader;
+
+    preloader.onload = () => {
+      if (loadId !== viewerLoadId) return;
+
+      const revealGif = () => {
+        if (loadId !== viewerLoadId) return;
+        viewerLoading.hidden = true;
+        viewerGif.style.opacity = "1";
+      };
+
+      viewerGif.onload = revealGif;
+      viewerGif.onerror = () => showViewerError(item, loadId);
+      viewerGif.src = item.gif;
+
+      // Cached images can become complete before a load callback is observed.
+      if (viewerGif.complete && viewerGif.naturalWidth > 0) revealGif();
+    };
+
+    preloader.onerror = () => showViewerError(item, loadId);
+    preloader.src = item.gif;
+
+    if (preloader.complete && preloader.naturalWidth > 0) preloader.onload();
     $("#viewer-category").textContent = item.category.toUpperCase();
     $("#viewer-title").textContent = item.displayAnimation;
     $("#viewer-project").textContent = `${item.project} · ${item.skeleton} / ${item.animation}`;
@@ -107,6 +144,14 @@
     $("#viewer-position").textContent = `${pad(viewerIndex + 1)} / ${pad(visibleItems.length)}`;
   }
 
+  function showViewerError(item, loadId) {
+    if (loadId !== viewerLoadId) return;
+    viewerLoading.hidden = false;
+    viewerLoading.textContent = "GIF 加载失败 · 点击重试";
+    viewerLoading.classList.add("is-error");
+    viewerLoading.onclick = () => fillViewer(item);
+  }
+
   function openViewer(index) {
     viewerIndex = index;
     fillViewer(visibleItems[viewerIndex]);
@@ -114,7 +159,15 @@
   }
 
   function closeViewer() {
+    viewerLoadId += 1;
+    if (viewerPreloader) {
+      viewerPreloader.onload = null;
+      viewerPreloader.onerror = null;
+      viewerPreloader = null;
+    }
     viewer.close();
+    viewerGif.onload = null;
+    viewerGif.onerror = null;
     viewerGif.removeAttribute("src");
   }
 
@@ -123,10 +176,6 @@
     fillViewer(visibleItems[viewerIndex]);
   }
 
-  viewerGif.addEventListener("load", () => {
-    viewerLoading.hidden = true;
-    viewerGif.style.opacity = "1";
-  });
   $("#viewer-close").addEventListener("click", closeViewer);
   $("#viewer-prev").addEventListener("click", () => moveViewer(-1));
   $("#viewer-next").addEventListener("click", () => moveViewer(1));

@@ -214,7 +214,9 @@ footer { width: var(--page); margin: 0 auto; padding: 74px 0 36px; border-top: 1
 .viewer-stage { min-height: min(64vh, 700px); display: grid; place-items: center; position: relative; padding: 32px; overflow: hidden; background-color: #090b0f; background-image: radial-gradient(circle at 50% 48%, #1d222a, #090b0f 65%); }
 .viewer-stage::after { content: ""; position: absolute; inset: 18px; border: 1px solid rgba(255,255,255,.08); pointer-events: none; }
 .viewer-stage img { display: block; max-width: 100%; max-height: min(58vh, 650px); object-fit: contain; position: relative; z-index: 2; user-select: none; }
-.viewer-loading { position: absolute; color: #777e89; font: 700 10px monospace; letter-spacing: .15em; }
+.viewer-loading { position: absolute; left: 50%; bottom: 24px; z-index: 3; transform: translateX(-50%); padding: 8px 11px; color: #c7cbd1; background: rgba(9,11,15,.82); border: 1px solid rgba(255,255,255,.13); font: 700 10px monospace; letter-spacing: .12em; white-space: nowrap; }
+.viewer-loading[hidden] { display: none; }
+.viewer-loading.is-error { color: var(--acid); border-color: rgba(201,255,91,.45); cursor: pointer; }
 .viewer-info { padding: 28px 34px; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 28px; border-top: 1px solid var(--line); }
 .viewer-info p { margin: 0 0 7px; color: var(--acid); font: 700 10px monospace; letter-spacing: .12em; }
 .viewer-info h3 { margin: 0 0 5px; font-size: clamp(25px, 3vw, 43px); letter-spacing: -.035em; }
