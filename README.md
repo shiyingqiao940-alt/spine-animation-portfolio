@@ -1,6 +1,6 @@
 # Spine Motion Portfolio
 
-公开的 Spine GIF 动画作品集，收录 22 个项目、48 个精选动画片段。
+公开的 Spine GIF 动画作品集，收录 28 个项目、67 个精选动画片段。
 
 - 纯静态网站，无需登录
 - GitHub Pages 可直接部署

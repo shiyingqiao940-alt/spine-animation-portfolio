@@ -192,7 +192,7 @@
     if (event.key === "ArrowRight") moveViewer(1);
   });
 
-  // A compact, continuously animated showcase without forcing all 111 GIFs to load.
+  // A compact, continuously animated showcase without forcing every GIF to load.
   const featured = data.items
     .filter((item) => item.actualFrames > 1 && item.bytes < 2_500_000)
     .filter((item, index, array) => array.findIndex((entry) => entry.category === item.category) === index)
