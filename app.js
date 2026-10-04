@@ -68,7 +68,7 @@
           <span class="card-meta">
             <h3>${item.displayAnimation}</h3>
             <time>${item.duration.toFixed(2)}s</time>
-            <p>${item.project} · ${item.skeleton}</p>
+            <p>${item.project}</p>
           </span>
         </button>`;
     }).join("");
@@ -110,7 +110,7 @@
     viewerGif.src = item.gif;
     $("#viewer-category").textContent = item.category.toUpperCase();
     $("#viewer-title").textContent = item.displayAnimation;
-    $("#viewer-project").textContent = `${item.project} · ${item.skeleton} / ${item.animation}`;
+    $("#viewer-project").textContent = `${item.project} · ${item.animation}`;
     $("#viewer-duration").textContent = `${item.duration.toFixed(2)} 秒`;
     $("#viewer-frames").textContent = `${item.frames} 帧`;
     $("#viewer-dimensions").textContent = item.dimensions;
