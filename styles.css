@@ -72,13 +72,12 @@ a { color: inherit; }
 
 .hero {
   width: var(--page);
-  min-height: 760px;
+  min-height: 700px;
   margin: 0 auto;
   padding: 86px 0 76px;
   display: grid;
-  grid-template-columns: minmax(420px, 0.92fr) minmax(480px, 1.08fr);
+  grid-template-columns: 1fr;
   grid-template-rows: 1fr auto;
-  column-gap: clamp(42px, 6vw, 104px);
   position: relative;
 }
 
@@ -105,14 +104,14 @@ h1 em { font-family: Georgia, "Songti SC", serif; font-weight: 400; color: var(-
 }
 .primary-link:hover { color: var(--acid); border-color: var(--acid); gap: 45px; }
 
-.hero-visual { min-height: 520px; position: relative; display: grid; place-items: center; }
+.hero-visual { width: min(960px, 100%); min-height: 540px; margin: 0 auto; position: relative; display: grid; place-items: center; }
 .hero-orbit { position: absolute; inset: 5% 9%; border: 1px solid rgba(201,255,91,.25); border-radius: 50%; transform: rotate(-16deg); }
 .orbit-a::before { content: ""; position: absolute; width: 8px; height: 8px; background: var(--acid); border-radius: 50%; left: 8%; top: 24%; box-shadow: 0 0 22px var(--acid); }
 .orbit-b { inset: 12% 4%; border-color: rgba(173,140,255,.22); transform: rotate(38deg); }
 
 .hero-frame {
-  width: min(560px, 92%);
-  aspect-ratio: 1.14;
+  width: min(760px, 92%);
+  aspect-ratio: 1.35;
   position: relative;
   z-index: 2;
   display: grid;
@@ -232,7 +231,7 @@ footer { width: var(--page); margin: 0 auto; padding: 74px 0 36px; border-top: 1
 .viewer-position { color: #656c76; font: 700 10px monospace; letter-spacing: .1em; }
 
 @media (max-width: 1120px) {
-  .hero { grid-template-columns: .9fr 1.1fr; }
+  .hero { grid-template-columns: 1fr; }
   .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
@@ -241,7 +240,6 @@ footer { width: var(--page); margin: 0 auto; padding: 74px 0 36px; border-top: 1
   .topbar { height: 68px; }
   .topbar-meta span:first-child { display: none; }
   .hero { padding: 64px 0 56px; display: block; min-height: 0; }
-  .hero-copy { margin-bottom: 56px; }
   .hero-visual { min-height: 470px; }
   .hero-stats { margin-top: 48px; }
   .hero-stats div + div { padding-left: 20px; }
