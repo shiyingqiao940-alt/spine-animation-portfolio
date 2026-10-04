@@ -19,7 +19,6 @@
   let visibleItems = [...data.items];
   let viewerIndex = 0;
   let viewerLoadId = 0;
-  let viewerPreloader = null;
 
   const pad = (number) => String(number).padStart(2, "0");
   const countFor = (category) => category === "全部"
@@ -64,7 +63,7 @@
         <button class="work-card" type="button" data-id="${item.id}" aria-label="播放 ${item.project} ${item.displayAnimation}">
           <span class="card-art" data-index="${pad(originalIndex)}">
             <span class="card-tag">${item.category}</span>
-            <img src="${item.poster}" alt="${item.project} ${item.displayAnimation} 预览" loading="lazy" decoding="async" draggable="false" />
+            <img src="${item.gif}" alt="${item.project} ${item.displayAnimation} 动画" loading="lazy" decoding="async" draggable="false" />
           </span>
           <span class="card-meta">
             <h3>${item.displayAnimation}</h3>
@@ -97,44 +96,18 @@
 
   function fillViewer(item) {
     const loadId = ++viewerLoadId;
-    viewerPreloader = null;
 
-    // Keep the lightweight cover visible while the full GIF is fetched. This
-    // avoids a blank viewer on slower connections and for the larger scenes.
+    // Gallery cards already play the real GIF. Opening the viewer therefore
+    // reuses the browser cache instead of starting a second, delayed download.
     viewerGif.onload = null;
     viewerGif.onerror = null;
-    viewerGif.src = item.poster;
     viewerGif.style.opacity = "1";
-    viewerLoading.hidden = false;
-    viewerLoading.textContent = "GIF 加载中…";
+    viewerLoading.hidden = true;
     viewerLoading.classList.remove("is-error");
     viewerLoading.onclick = null;
     viewerGif.alt = `${item.project} ${item.displayAnimation}`;
-
-    const preloader = new Image();
-    viewerPreloader = preloader;
-
-    preloader.onload = () => {
-      if (loadId !== viewerLoadId) return;
-
-      const revealGif = () => {
-        if (loadId !== viewerLoadId) return;
-        viewerLoading.hidden = true;
-        viewerGif.style.opacity = "1";
-      };
-
-      viewerGif.onload = revealGif;
-      viewerGif.onerror = () => showViewerError(item, loadId);
-      viewerGif.src = item.gif;
-
-      // Cached images can become complete before a load callback is observed.
-      if (viewerGif.complete && viewerGif.naturalWidth > 0) revealGif();
-    };
-
-    preloader.onerror = () => showViewerError(item, loadId);
-    preloader.src = item.gif;
-
-    if (preloader.complete && preloader.naturalWidth > 0) preloader.onload();
+    viewerGif.onerror = () => showViewerError(item, loadId);
+    viewerGif.src = item.gif;
     $("#viewer-category").textContent = item.category.toUpperCase();
     $("#viewer-title").textContent = item.displayAnimation;
     $("#viewer-project").textContent = `${item.project} · ${item.skeleton} / ${item.animation}`;
@@ -160,11 +133,6 @@
 
   function closeViewer() {
     viewerLoadId += 1;
-    if (viewerPreloader) {
-      viewerPreloader.onload = null;
-      viewerPreloader.onerror = null;
-      viewerPreloader = null;
-    }
     viewer.close();
     viewerGif.onload = null;
     viewerGif.onerror = null;
